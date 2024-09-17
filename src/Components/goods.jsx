@@ -1,110 +1,144 @@
-import React from "react";
-import DataTable from "./ui/dataTable";
-import { getGoodsList, removeGoodsId } from "./api/apiGoods";
-import NameForm from "./form/nameForm";
-import { Button } from "@mui/material";
-import BasicModal from "./ui/modal";
-import { GridDeleteForeverIcon } from "@mui/x-data-grid";
+import React from 'react'
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import { getGoodsList, removeGoodsId } from './api/apiGoods';
+import FullFeaturedCrudGrid from './ui/dataTable';
+import { GridRowModes } from '@mui/x-data-grid';
 
+function Goods() {
 
-const Goods = () => {
-
-  const [error, setError] = React.useState("");
   const [goods, setGoods] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [rowModesModel, setRowModesModel] = React.useState({});
 
   React.useEffect(() => {
-    setError(""); // очистка ошибки при вторичной загрузке
     getGoodsList()
       .then((result) => {
         setGoods(result.data);
       })
-      .catch((error) => {
-        setError(error.message);
+      .catch((e) => {
+        console.log(e);
       });
   }, []);
- 
-   
+  const handleEditClick = id => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
 
+  const handleSaveClick = id => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleDeleteClick = id => async () => {
+    const res = window.confirm("Вы уверены");
+    if (!res) {
+      return false;
+    }
+    await removeGoodsId(id);
+    setGoods((await getGoodsList()).data);
+  };
+
+  const handleCancelClick = id => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+    const editedRow = rows.find(row => row.id === id);
+    if (editedRow.isNew) {
+      setGoods(rows.filter(row => row.id !== id));
+    }
+  };
   const rows = goods;
   const columns = [
     {
-      field: "id",
+      field: 'id',
       width: 125,
-      headerName: "идентификатор",
-      editable: true,
-      headerAlign: "center",
-      align: "center",
+      headerName: 'идентификатор',
+      headerAlign: 'center',
+      align: 'center',
     },
     {
-      field: "name",
+      field: 'name',
       width: 450,
-      headerName: "Изделие",
+      headerName: 'Изделие',
       editable: true,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: 'center',
+      align: 'center',
     },
     {
-      field: "quantity",
-      headerName: "Количество",
+      field: 'quantity',
+      headerName: 'Количество',
       editable: true,
       width: 125,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: 'center',
+      align: 'center',
     },
     {
-      field: "storageLocation",
+      field: 'storageLocation',
       width: 450,
-      headerName: "Место хранения",
+      headerName: 'Место хранения',
       editable: true,
-      headerAlign: "center",
-      align: "center",
+      headerAlign: 'center',
+      align: 'center',
     },
     {
-      editable: true,
-      field: "actions",
-      headerName: "Удалить",
-      sortable: false,
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
       width: 100,
-      align: "center",
-      renderCell: (params) => {
-        return (
-          <div
-            className="d-flex justify-content-between align-items-center"
-            style={{ cursor: "pointer" }}
-          >
-            <GridDeleteForeverIcon
-              index={params.row.id}
-              onClick={async () => {
-                const res = window.confirm("Вы уверены");
-                if (!res) {
-                  return false;
-                }
-                await removeGoodsId(params.row.id);
-                setGoods((await getGoodsList()).data);
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: 'primary.main',
               }}
-            />
-          </div>
-        );
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
       },
     },
   ];
-
   return (
-    <div className={"goods"}>
-       <Button onClick={handleOpen}>Добавить изделие</Button>
-      <h3 style={{ width: "100%", textAlign: "center" }}>Список задач</h3>
-      <DataTable rows={rows} columns={columns} />
-      <BasicModal
-        open={open}
-        handleClose={handleClose}
-        text={"Добавить пользователя"}
-        children={<NameForm setGoods={setGoods} handleClose={handleClose} />}
+    <div className={'goods'}>
+      <h2>Список забытых вещей</h2>
+      <FullFeaturedCrudGrid rows={rows}
+        columns={columns}
+        setGoods={setGoods}
+        setRowModesModel={setRowModesModel}
+        rowModesModel={rowModesModel}
       />
     </div>
   );
-};
+}
 
 export default Goods;
