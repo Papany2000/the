@@ -53,14 +53,22 @@ function Goods() {
   const columns = [
     {
       field: 'id',
-      width: 125,
+      width: 225,
       headerName: 'идентификатор',
       headerAlign: 'center',
       align: 'center',
     },
     {
+      field: 'userId',
+      width: 225,
+      headerName: 'Идентификатор пользователя',
+      editable: true,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
       field: 'name',
-      width: 450,
+      width: 550,
       headerName: 'Изделие',
       editable: true,
       headerAlign: 'center',
@@ -76,7 +84,7 @@ function Goods() {
     },
     {
       field: 'storageLocation',
-      width: 450,
+      width: 550,
       headerName: 'Место хранения',
       editable: true,
       headerAlign: 'center',

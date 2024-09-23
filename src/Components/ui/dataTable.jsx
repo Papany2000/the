@@ -17,7 +17,7 @@ function EditToolbar(props) {
     const id = randomId();
     setGoods(oldRows => [
       ...oldRows,
-      { id, name: '', quantity: '', storageLocation: '', isNew: true },
+      { id, userId: '', name: '', quantity: '', storageLocation: '', isNew: true },
     ]);
     setRowModesModel(oldModel => ({
       ...oldModel,

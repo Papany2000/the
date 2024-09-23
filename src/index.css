@@ -33,17 +33,14 @@ header {
   }
 
   .goods{
-    background-color: rgb(249, 245, 245);
+    background-color: rgb(202, 216, 182);
    
   }
 
   h2{
-    background-image: url('https://img.freepik.com/free-photo/person-feeling-anxiety-induced-by-book-studying_23-2150982005.jpg?ga=GA1.1.2007972847.1717526022&semt=ais_hybrid');
+    color: black;
     text-align: center;
-    opacity: 0.6;
-    height: 100px;
-    color:aliceblue;
-    padding-top: 30px;
+    padding-top: 20px;
   }
 
 
