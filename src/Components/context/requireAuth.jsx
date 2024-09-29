@@ -5,17 +5,23 @@ import { UserContext } from "./contextAuth";
 
 
 const RequireAuth = (props) => {
+
+    const { auth } = React.useContext(UserContext);
+    // получаем текущий маршрут с помощью хука useLocation()
     const location = useLocation();
-    const navigate = useNavigate()
-    const fromPage = location.state?.from?.pathname && '/'
-    const value = React.useContext(UserContext);
-    const success = () => navigate(fromPage, { replace: true })
-    if (value.auth === true) {
-        success()
+    // используем хук useNavigate для навигации по маршрутам
+    const navigate = useNavigate();
+
+    const success = () => navigate("/goods");
+    if (auth) {
+        // если пользователь авторизован, то рендерим дочерние элементы текущего маршрута
+        success();
         return props.children;
-        
     }
-    return <Navigate to="*" state={{ from: location }} />;
+    // если пользователь не авторизован, то перенаправляем его на маршрут /login с помощью компонента Navigate
+    // свойство replace указывает, что текущий маршрут будет заменен на новый, чтобы пользователь не мог вернуться
+    // обратно, используя кнопку "назад" в браузере.
+    <Navigate to="*" state={{ from: location }} replace />
 };
 
 export default RequireAuth;

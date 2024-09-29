@@ -12,6 +12,7 @@ function Goods() {
 
   const [goods, setGoods] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  
 
   React.useEffect(() => {
     getGoodsList()
@@ -55,14 +56,6 @@ function Goods() {
       field: 'id',
       width: 225,
       headerName: 'идентификатор',
-      headerAlign: 'center',
-      align: 'center',
-    },
-    {
-      field: 'userId',
-      width: 225,
-      headerName: 'Идентификатор пользователя',
-      editable: true,
       headerAlign: 'center',
       align: 'center',
     },

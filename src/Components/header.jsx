@@ -5,10 +5,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { NavLink } from 'react-router-dom'
+import { UserContext } from './context/contextAuth';
+
 
 
 function Navigation() {
 
+  const{auth} = React.useContext(UserContext)
+ 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -34,7 +38,8 @@ function Navigation() {
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-evenly' }}>
             <Typography><NavLink to="/" style={{ color: 'inherit', textDecoration: 'none' }} >Главная</NavLink></Typography>
             <Typography><NavLink to="goods" style={{ color: 'inherit', textDecoration: 'none' }} >Склад</NavLink></Typography>
-            <Typography><NavLink to="login" style={{ color: 'inherit', textDecoration: 'none' }}>Регистрация</NavLink></Typography>
+            {auth ? null : <Typography><NavLink to="authorization" style={{ color: 'inherit', textDecoration: 'none' }}>Регистрация</NavLink></Typography>}
+            {!auth ? <Typography><NavLink to="login" style={{ color: 'inherit', textDecoration: 'none' }}>login</NavLink></Typography> : <Typography><NavLink to="login" style={{ color: 'inherit', textDecoration: 'none' }}>logout</NavLink></Typography>}
           </Box>
 
 

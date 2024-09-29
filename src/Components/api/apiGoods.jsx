@@ -1,7 +1,4 @@
-
-
 import { axiosClient } from "../utils/axiosClient";
-
 
 export const postGoods = async (goods) =>
   axiosClient.post(`/goods`, goods);

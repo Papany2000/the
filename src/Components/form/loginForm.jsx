@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, TextField } from '@mui/material';
 import { Controller, useForm, useFormState } from "react-hook-form";
 import Box from '@mui/material/Box';
-import { postUser } from '../api/apiUser';
+import { login } from '../api/apiUser';
 import Swal from 'sweetalert2';
 import { setAuthToken } from '../utils/axiosClient';
 import { UserContext } from '../context/contextAuth';
@@ -10,7 +10,7 @@ import { UserContext } from '../context/contextAuth';
 
 
 
-function RegistrationForm({ handleClose }) {
+function LoginForm({ handleClose }) {
 
   const{setAuth} = React.useContext(UserContext)
   const { handleSubmit, control } = useForm()
@@ -18,9 +18,9 @@ function RegistrationForm({ handleClose }) {
     control
   });
   const onSubmit = async (data) => {
-    console.log(data)
     try {
-      const res = await postUser(data);
+      const res = await login(data);
+      console.log(res.data)
       setAuthToken(res.data.token)
       const token = localStorage.setItem('access_token', res.data.token)
       if (res.data.token) { 
@@ -99,7 +99,7 @@ function RegistrationForm({ handleClose }) {
               />
             )}
           />
-          <Button type="submit" fullWidth={true} variant="contained">Зарегистрируйся</Button>
+          <Button type="submit" fullWidth={true} variant="contained">Авторизуйтесь</Button>
         </form>
       </Box>
 
@@ -108,4 +108,4 @@ function RegistrationForm({ handleClose }) {
   );
 }
 
-export default RegistrationForm;
+export default LoginForm;

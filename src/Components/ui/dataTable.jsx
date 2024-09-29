@@ -17,7 +17,7 @@ function EditToolbar(props) {
     const id = randomId();
     setGoods(oldRows => [
       ...oldRows,
-      { id, userId: '', name: '', quantity: '', storageLocation: '', isNew: true },
+      { id, name: '', quantity: '', storageLocation: '', isNew: true },
     ]);
     setRowModesModel(oldModel => ({
       ...oldModel,
@@ -46,7 +46,6 @@ export default function FullFeaturedCrudGrid({ rows, columns, setGoods, setRowMo
 
   const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow };
-    console.log(newRow, newRow.id)
     if (newRow.isNew) {
       try {
         await postGoods(newRow, newRow.id);
