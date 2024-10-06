@@ -53,15 +53,8 @@ function Goods() {
   const rows = goods;
   const columns = [
     {
-      field: 'id',
-      width: 225,
-      headerName: 'идентификатор',
-      headerAlign: 'center',
-      align: 'center',
-    },
-    {
       field: 'name',
-      width: 550,
+      minWidth: 450,
       headerName: 'Изделие',
       editable: true,
       headerAlign: 'center',
@@ -71,13 +64,13 @@ function Goods() {
       field: 'quantity',
       headerName: 'Количество',
       editable: true,
-      width: 125,
+      width: 175,
       headerAlign: 'center',
       align: 'center',
     },
     {
       field: 'storageLocation',
-      width: 550,
+      width: 650,
       headerName: 'Место хранения',
       editable: true,
       headerAlign: 'center',
@@ -87,7 +80,7 @@ function Goods() {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      width: 100,
+      width: 150,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;

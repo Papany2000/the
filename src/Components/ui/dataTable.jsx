@@ -110,7 +110,7 @@ const handleRowModesModelChange = newRowModesModel => {
 return (
   <Box
     sx={{
-      height: 500,
+      height: '50%',
       width: '100%',
       '& .actions': {
         color: 'text.secondary',

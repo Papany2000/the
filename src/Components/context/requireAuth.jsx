@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { UserContext } from "./contextAuth";
 
 
@@ -10,12 +10,12 @@ const RequireAuth = (props) => {
     // получаем текущий маршрут с помощью хука useLocation()
     const location = useLocation();
     // используем хук useNavigate для навигации по маршрутам
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
-    const success = () => navigate("/goods");
+   // const success = () => navigate("/goods");
     if (auth) {
         // если пользователь авторизован, то рендерим дочерние элементы текущего маршрута
-        success();
+       // success();
         return props.children;
     }
     // если пользователь не авторизован, то перенаправляем его на маршрут /login с помощью компонента Navigate

@@ -8,7 +8,8 @@ import RequireAuth from './Components/context/requireAuth';
 import { UserContext } from './Components/context/contextAuth';
 import { setAuthToken } from './Components/utils/axiosClient';
 import Authorization from './Components/Authorization';
-import Login from './Components/Login';
+import Login from './Components/login';
+
 
 const GoodsAuthRequire = (
   <RequireAuth>
@@ -18,7 +19,6 @@ const GoodsAuthRequire = (
 
 function App() {
   const [auth, setAuth] = React.useState(false);
- console.log(auth)
   
   React.useEffect(() => {
     const token = localStorage.getItem('access_token');
